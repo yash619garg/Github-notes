@@ -1,116 +1,473 @@
--- link for git and github chaiCode documentation
+````md
+# Git & GitHub Notes (ChaiCode)
+
+These notes are based on **ChaiCode Git & GitHub series** and my own practice commands.
+
+📌 Reference Documentation:  
 https://docs.chaicode.com/youtube/chai-aur-git/introduction/
 
---we can track files accordingly
---so if we want to track folder "one" we have to initialize git in it
+---
 
---so cd one then git init
---this will start git to track one folder
--- before initializing git first check using git status that is it already tracking or not
--- now this make it working directory
+## 📌 Table of Contents
 
--- touch : for creating file
--- mkdir : for creating folder
+- [Basic Setup](#-basic-setup)
+- [File & Folder Commands](#-file--folder-commands)
+- [Working Directory, Staging & Commit](#-working-directory-staging--commit)
+- [Git Log](#-git-log)
+- [Git Editor (Vim / VS Code)](#-git-editor-vim--vs-code)
+- [.gitignore](#-gitignore)
+- [Keep Empty Folder (.gitkeep)](#-keep-empty-folder-gitkeep)
+- [Branches](#-branches)
+- [Merging & Merge Conflicts](#-merging--merge-conflicts)
+- [Diff Commands](#-diff-commands)
+- [Stash](#-stash)
+- [Git Tags](#-git-tags)
+- [History Management (Merge vs Rebase)](#-history-management-merge-vs-rebase)
+- [Reflog & Recovery](#-reflog--recovery)
+- [Remote Repository (Origin/Upstream)](#-remote-repository-originupstream)
+- [Push / Fetch / Pull](#-push--fetch--pull)
 
--- for push folder in staging area we use git add
--- git add 1.txt
--- git add . (for adding all unStage files)
+---
 
--- use "git rm --cached <file>..." to unstage
+## ✅ Basic Setup
 
--- git commit : for send changes from staging area to repo
--- git log : will show you your repo history
--- we can use --online flag with git log to show only commit messages
+### Track a folder using Git
 
--- git original editor is vim which is very hard to use
--- so we set vs code terminal as editor using command
--- git config --global core.editor "code --wait"
--- install code command in vs code
--- now a file open write message and save and close file
+If we want to track folder `one`, we must initialize Git inside that folder:
 
--- if we don't wanna track any file put it into gitignore
+```bash
+cd one
+git init
+```
+````
 
--- if we wanna keep emptyFolder we make .gitkeep file in that folder so by using that we can keep empty folder too in our repo
+Before initializing, check if Git is already initialized:
 
--- git branch : give all branches
--- head : pointer point to current branch
--- git branch <branch name> : will create new branch
--- git switch <branch name> : switch to new branch
--- git switch -c <branch name> : create and switch to a new branch
--- git checkout : similar to switch
+```bash
+git status
+```
 
--- merging
--- git merge <branch name> : merge branches
--- if there is any merge conflict , you have to resolve them choosing
--- 1. Accept current 2. Accept incoming 3. Accept both
--- then you have to add and commit again
+After `git init`, the folder becomes a **Working Directory**.
 
--- git branch -m <old-name> <new-name> : rename branch
--- git branch -d <branch-name> : delete branch
+---
 
--- git diff --staged : This command shows the changes between your last commit and the staging area
--- git diff <branch-name-one> <branch-name-two> : This command compares the difference between two branches.
--- Another way to compare the difference between two branches is to use the following command:
--- git diff branch-name-one..branch-name-two
+## 📁 File & Folder Commands
 
--- Comparing Specific Commits: git diff <commit-hash-one> <commit-hash-two>
+### Create a new file
 
--- Conflicting changes will not allow you to switch branches without committing the changes
--- git stash : This command saves your changes in a temporary location. It is like a stack of changes that you can access later
--- Naming the stash : git stash save "work in progress on X feature"
--- View the stash list : git stash list
--- Apply the Most Recent Stash : git stash apply
--- Apply Specific Stash : git stash apply stash@{0}
--- Applying and Drop a Stash :git stash pop
--- Drop the stash : git stash drop
--- Applying stash to a specific branch : git stash apply stash@{0} <branch-name>
--- Clearing the stash : git stash clear
+```bash
+touch fileName.txt
+```
 
--- Git Tags : Tags are a way to mark a specific point in your repository.
--- Creating a Tag : git tag <tag-name>
+Example:
 
--- Managing History
+```bash
+touch 1.txt
+```
 
--- A merge commit is a commit that combines two or more commits into one. It is created when you merge two or more branches into a single branch
--- Some people like to use rebase over the merge command because it allows you to keep the commit history cleaner
--- Ensure you are on the branch you want to rebase
+### Create a new folder
+
+```bash
+mkdir folderName
+```
+
+Example:
+
+```bash
+mkdir project
+```
+
+---
+
+## ✅ Working Directory, Staging & Commit
+
+### Add file to staging
+
+```bash
+git add 1.txt
+```
+
+### Add all files to staging
+
+```bash
+git add .
+```
+
+### Unstage a file
+
+```bash
+git rm --cached <file>
+```
+
+Example:
+
+```bash
+git rm --cached query.sql
+```
+
+### Commit changes
+
+Commit moves changes from **staging area** to **repository**:
+
+```bash
+git commit -m "your message"
+```
+
+---
+
+## 📜 Git Log
+
+### View commit history
+
+```bash
+git log
+```
+
+### View short log (one-line commits)
+
+```bash
+git log --oneline
+```
+
+---
+
+## ✍️ Git Editor (Vim / VS Code)
+
+Git’s default editor is **vim**.
+
+### Set VS Code as Git editor
+
+```bash
+git config --global core.editor "code --wait"
+```
+
+⚠️ If you get error:
+
+```
+code: command not found
+```
+
+✅ Fix:
+
+1. Open **VS Code**
+2. Press `Cmd + Shift + P`
+3. Run: **Shell Command: Install 'code' command in PATH**
+4. Restart terminal
+
+Now `git commit` opens VS Code.
+
+---
+
+## 🚫 .gitignore
+
+If we don't want to track any file, put it into `.gitignore`.
+
+Example `.gitignore`:
+
+```txt
+query.sql
+.env
+node_modules/
+```
+
+---
+
+## 📂 Keep Empty Folder (.gitkeep)
+
+Git does not track empty folders.
+To keep an empty folder in repo, create a `.gitkeep` file:
+
+```bash
+touch emptyFolder/.gitkeep
+```
+
+---
+
+## 🌿 Branches
+
+### List branches
+
+```bash
+git branch
+```
+
+### Create new branch
+
+```bash
+git branch <branch-name>
+```
+
+### Switch branch
+
+```bash
+git switch <branch-name>
+```
+
+### Create and switch branch
+
+```bash
+git switch -c <branch-name>
+```
+
+### Checkout (old style)
+
+```bash
+git checkout <branch-name>
+```
+
+### Rename branch
+
+```bash
+git branch -m <old-name> <new-name>
+```
+
+### Delete branch
+
+```bash
+git branch -d <branch-name>
+```
+
+---
+
+## 🔀 Merging & Merge Conflicts
+
+### Merge a branch into current branch
+
+```bash
+git merge <branch-name>
+```
+
+### Merge conflict resolution
+
+If conflict occurs, resolve manually by selecting:
+
+1. Accept Current
+2. Accept Incoming
+3. Accept Both
+
+Then:
+
+```bash
+git add .
+git commit -m "resolve merge conflict"
+```
+
+---
+
+## 🔍 Diff Commands
+
+### Show staged changes
+
+This compares:
+✅ last commit vs staging area
+
+```bash
+git diff --staged
+```
+
+### Compare two branches
+
+```bash
+git diff branch1 branch2
+```
+
+OR
+
+```bash
+git diff branch1..branch2
+```
+
+### Compare two commits
+
+```bash
+git diff <hash1> <hash2>
+```
+
+---
+
+## 📦 Stash
+
+Stash temporarily saves changes so you can switch branches.
+
+### Save stash (tracked only)
+
+```bash
+git stash
+```
+
+### Save stash including untracked files
+
+```bash
+git stash -u
+```
+
+### Save stash with message
+
+```bash
+git stash save "work in progress on feature X"
+```
+
+### List stashes
+
+```bash
+git stash list
+```
+
+### Apply latest stash
+
+```bash
+git stash apply
+```
+
+### Apply specific stash
+
+```bash
+git stash apply stash@{0}
+```
+
+### Apply and remove stash
+
+```bash
+git stash pop
+```
+
+### Drop a stash
+
+```bash
+git stash drop stash@{0}
+```
+
+### Clear all stashes
+
+```bash
+git stash clear
+```
+
+---
+
+## 🏷️ Git Tags
+
+Tags mark a specific point in repository history.
+
+### Create tag
+
+```bash
+git tag <tag-name>
+```
+
+Example:
+
+```bash
+git tag v1.0
+```
+
+---
+
+## 🧠 History Management (Merge vs Rebase)
+
+### Merge Commit
+
+Merge creates a **merge commit**, combining branches history.
+
+### Rebase (clean history)
+
+Some developers prefer rebase to keep history clean.
+
+```bash
 git checkout feature-branch
 git rebase main
+```
 
--- If there are any conflicts, you will need to resolve them manually similar to merge conflict
+If conflicts happen:
+
+```bash
 git add <resolved-files>
 git rebase --continue
+```
 
-git reflog : Git reflog is a command that shows you the history of your commits
-git reset --hard <commit-hash> : Recover lost commits or changes
-git reset --hard HEAD@{1} : you can use HEAD@{n} to reset to the nth commit before the one you want to reset to.
+---
 
-## Publish Code to Remote Repository
+## 🧾 Reflog & Recovery
 
-Remote URL Setting
-You can check the remote url setting by running the following command:
+### View reflog
+
+Shows all movements of HEAD:
+
+```bash
+git reflog
+```
+
+### Reset hard to a commit
+
+```bash
+git reset --hard <commit-hash>
+```
+
+### Reset using reflog position
+
+```bash
+git reset --hard HEAD@{1}
+```
+
+---
+
+## 🌍 Remote Repository (Origin/Upstream)
+
+### Check remote URL
+
+```bash
 git remote -v
+```
 
-You can add a remote repository by running the following command:
+### Add remote origin
+
+```bash
 git remote add origin <remote-url>
-origin is the name of the remote repository.
+```
 
-## Pushing Code
+✅ `origin` is main remote repo.
 
-git push remote-name branch-name
+---
+
+## 🚀 Push / Fetch / Pull
+
+### Push code
+
+```bash
 git push origin main
+```
 
-## Setup an upstream remote
+### Setup upstream branch (recommended)
 
-Setting up an upstream remote is useful when you want to keep your local repository up to date with the remote repository. It allows you to fetch and merge changes from the remote repository into your local repository.
+After this, you can push/pull without specifying branch each time:
 
--- This will allow you to run future commands like git pull and git push without specifying the remote name.
-
-git remote add upstream <remote-url>
-or
-git remote add -u <remote-url>
-or
+```bash
 git push -u origin main
+```
 
-git fetch <remote-name> : To fetch code from a remote repository
-git pull origin main : To pull code from a remote repository
+### Fetch code
+
+```bash
+git fetch <remote-name>
+```
+
+Example:
+
+```bash
+git fetch origin
+```
+
+### Pull latest changes
+
+```bash
+git pull origin main
+```
+
+---
+
+✅ End of Notes
+
+```
+
+If you want, I can also make it **more attractive** with icons, examples, and a **GitHub workflow section (fork → branch → PR)**.
+```
