@@ -4,3 +4,4 @@ now i'm commit without msg
 adding new msg
 
 add main feature 1
+add main feature 2
