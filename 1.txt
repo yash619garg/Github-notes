@@ -2,3 +2,5 @@ this is my for git course
 now i'm commit without msg
 
 adding new msg
+
+add main feature 1
