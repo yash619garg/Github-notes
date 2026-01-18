@@ -463,11 +463,6 @@ git fetch origin
 git pull origin main
 ```
 
----
-
-✅ End of Notes
-
 ```
 
-If you want, I can also make it **more attractive** with icons, examples, and a **GitHub workflow section (fork → branch → PR)**.
 ```
